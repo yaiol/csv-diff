@@ -7,7 +7,7 @@ import hashlib
 def load_csv(fp, key=None, dialect=None):
     if dialect is None and fp.seekable():
         # Peek at first 1MB to sniff the delimiter and other dialect details
-        peek = fp.read(1024 ** 2)
+        peek = fp.read(1024**2)
         fp.seek(0)
         try:
             dialect = csv.Sniffer().sniff(peek, delimiters=",\t;")
@@ -91,9 +91,10 @@ def compare(previous, current, show_unchanged=False):
                     "key": id,
                     "changes": {
                         # field can be a list if id contained '.' - #7
-                        field[0]
-                        if isinstance(field, list)
-                        else field: [prev_value, current_value]
+                        field[0] if isinstance(field, list) else field: [
+                            prev_value,
+                            current_value,
+                        ]
                         for _, field, (prev_value, current_value) in diffs
                     },
                 }
