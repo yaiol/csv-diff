@@ -108,7 +108,7 @@ def compare(previous, current, show_unchanged=False):
     return result
 
 
-def human_text(result, key=None, singular=None, plural=None, show_unchanged=False):
+def human_text(result, key=None, singular=None, plural=None, current=None, extras=None):
     singular = singular or "row"
     plural = plural or "rows"
     title = []
@@ -151,6 +151,9 @@ def human_text(result, key=None, singular=None, plural=None, show_unchanged=Fals
                 block.append(
                     '    {}: "{}" => "{}"'.format(field, prev_value, current_value)
                 )
+            if extras:
+                current_item = current[details["key"]]
+                block.append(human_extras(current_item, extras))
             block.append("")
             change_blocks.append("\n".join(block))
             if details.get("unchanged"):
@@ -170,7 +173,10 @@ def human_text(result, key=None, singular=None, plural=None, show_unchanged=Fals
             summary.append(fragment + "\n")
         rows = []
         for row in result["added"]:
-            rows.append(human_row(row, prefix="  "))
+            to_append = human_row(row, prefix="  ")
+            if extras:
+                to_append += "\n" + human_extras(row, extras)
+            rows.append(to_append)
         summary.append("\n\n".join(rows))
         summary.append("")
     if result["removed"]:
@@ -182,7 +188,10 @@ def human_text(result, key=None, singular=None, plural=None, show_unchanged=Fals
             summary.append(fragment + "\n")
         rows = []
         for row in result["removed"]:
-            rows.append(human_row(row, prefix="  "))
+            to_append = human_row(row, prefix="  ")
+            if extras:
+                to_append += "\n" + human_extras(row, extras)
+            rows.append(to_append)
         summary.append("\n\n".join(rows))
         summary.append("")
     return (", ".join(title) + "\n\n" + ("\n".join(summary))).strip()
@@ -192,4 +201,12 @@ def human_row(row, prefix=""):
     bits = []
     for key, value in row.items():
         bits.append("{}{}: {}".format(prefix, key, value))
+    return "\n".join(bits)
+
+
+def human_extras(row, extras):
+    bits = []
+    bits.append("  extras:")
+    for key, fmt in extras:
+        bits.append("    {}: {}".format(key, fmt.format(**row)))
     return "\n".join(bits)

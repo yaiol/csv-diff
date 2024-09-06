@@ -66,6 +66,8 @@ Use `--show-unchanged` to include full details of the unchanged values for rows 
         Unchanged:
           name: "Cleo"
 
+### JSON output
+
 You can use the `--json` option to get a machine-readable difference:
 
     $ csv-diff one.csv two.csv --key=id --json
@@ -98,6 +100,29 @@ You can use the `--json` option to get a machine-readable difference:
         "columns_added": [],
         "columns_removed": []
     }
+
+### Adding templated extras
+
+You can specify additional keys to be displayed in the human-readable format using the `--extra` option:
+
+    --extra name "Python format string with {id} for variables"
+
+For example, to output a link to `https://news.ycombinator.com/latest?id={id}` for each item with an ID, you could use this:
+
+```bash
+csv-diff one.csv two.csv --key=id \
+  --extra latest "https://news.ycombinator.com/latest?id={id}"
+```
+These extras display something like this:
+```
+1 row changed
+
+  id: 41459472
+    points: "24" => "25"
+    numComments: "5" => "6"
+  extras:
+    latest: https://news.ycombinator.com/latest?id=41459472
+```
 
 ## As a Python library
 

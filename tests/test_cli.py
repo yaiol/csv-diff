@@ -234,3 +234,69 @@ def test_semicolon_delimited(tmpdir):
         "columns_added": [],
         "columns_removed": [],
     } == json.loads(result.output.strip())
+
+
+def test_diff_with_extras(tmpdir):
+    one = tmpdir / "one.json"
+    two = tmpdir / "two.json"
+    one.write(
+        json.dumps(
+            [
+                {"id": 1, "name": "Cleo", "type": "dog"},
+                {"id": 2, "name": "Suna", "type": "chicken"},
+            ]
+        )
+    )
+    two.write(
+        json.dumps(
+            [
+                {"id": 2, "name": "Suna", "type": "pretty chicken"},
+                {"id": 3, "name": "Artie", "type": "bunny"},
+            ]
+        )
+    )
+    result = CliRunner().invoke(
+        cli.cli,
+        [
+            str(one),
+            str(two),
+            "--key",
+            "id",
+            "--format",
+            "json",
+            "--extra",
+            "search",
+            "https://www.google.com/search?q={name}",
+        ],
+        catch_exceptions=False,
+    )
+    assert result.exit_code == 0
+    expected = dedent(
+        """
+    1 row changed, 1 row added, 1 row removed
+
+    1 row changed
+
+      id: 2
+        type: "chicken" => "pretty chicken"
+      extras:
+        search: https://www.google.com/search?q=Suna
+
+    1 row added
+
+      id: 3
+      name: Artie
+      type: bunny
+      extras:
+        search: https://www.google.com/search?q=Artie
+
+    1 row removed
+
+      id: 1
+      name: Cleo
+      type: dog
+      extras:
+        search: https://www.google.com/search?q=Cleo
+    """
+    ).strip()
+    assert result.output.strip() == expected

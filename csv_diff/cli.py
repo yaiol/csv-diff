@@ -42,12 +42,25 @@ from . import load_csv, load_json, compare, human_text
     is_flag=True,
     help="Show unchanged fields for rows with at least one change",
 )
-def cli(previous, current, key, format, json, singular, plural, show_unchanged):
+@click.option(
+    "extras",
+    "--extra",
+    type=(str, str),
+    multiple=True,
+    help="key: format string - define extra fields to display",
+)
+def cli(previous, current, key, format, json, singular, plural, show_unchanged, extras):
     "Diff two CSV or JSON files"
     dialect = {
         "csv": "excel",
         "tsv": "excel-tab",
     }
+
+    if extras and json:
+        raise click.UsageError(
+            "Extra fields are not supported in JSON output mode",
+            ctx=click.get_current_context(),
+        )
 
     def load(filename):
         if format == "json":
@@ -57,8 +70,13 @@ def cli(previous, current, key, format, json, singular, plural, show_unchanged):
                 open(filename, newline=""), key=key, dialect=dialect.get(format)
             )
 
-    diff = compare(load(previous), load(current), show_unchanged)
+    previous_data = load(previous)
+    current_data = load(current)
+
+    diff = compare(previous_data, current_data, show_unchanged)
     if json:
         print(std_json.dumps(diff, indent=4))
     else:
-        print(human_text(diff, key, singular, plural))
+        print(
+            human_text(diff, key, singular, plural, current=current_data, extras=extras)
+        )
