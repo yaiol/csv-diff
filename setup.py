@@ -2,7 +2,7 @@ from setuptools import setup, find_packages
 import io
 import os
 
-VERSION = "1.2"
+VERSION = "1.3"
 
 
 def get_long_description():
@@ -18,7 +18,7 @@ setup(
     description="Python CLI tool and library for diffing CSV and JSON files",
     long_description=get_long_description(),
     long_description_content_type="text/markdown",
-    author="Simon Willison",
+    author="Yaiol",
     version=VERSION,
     license="Apache License, Version 2.0",
     packages=find_packages(),
@@ -30,14 +30,13 @@ setup(
         csv-diff=csv_diff.cli:cli
     """,
     tests_require=["csv-diff[test]"],
-    url="https://github.com/simonw/csv-diff",
+    url="https://github.com/Yaiol/csv-diff",
     classifiers=[
         "Development Status :: 4 - Beta",
         "Intended Audience :: Developers",
         "Intended Audience :: Science/Research",
         "Intended Audience :: End Users/Desktop",
         "License :: OSI Approved :: Apache Software License",
-        "Programming Language :: Python :: 3.6",
-        "Programming Language :: Python :: 3.7",
+        "Programming Language :: Python :: 3.12"
     ],
 )
