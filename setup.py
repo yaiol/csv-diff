@@ -18,7 +18,7 @@ setup(
     description="Python CLI tool and library for diffing CSV and JSON files",
     long_description=get_long_description(),
     long_description_content_type="text/markdown",
-    author="Yaiol",
+    author="simonw, gambler147, Yaiol",
     version=VERSION,
     license="Apache License, Version 2.0",
     packages=find_packages(),

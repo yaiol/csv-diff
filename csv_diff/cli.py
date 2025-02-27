@@ -14,7 +14,16 @@ from . import load_csv, load_json, compare, human_text
     type=click.Path(exists=True, file_okay=True, dir_okay=False, allow_dash=False),
 )
 @click.option(
-    "--key", type=str, default=None, help="Column to use as a unique ID for each row"
+    "--key", 
+    type=str, 
+    default=None, 
+    help="Column(s) to use as a unique ID for each row. To use multiple keys, separate them with a comma, e.g., key1,key2"    
+)
+@click.option(
+    "--ignore",
+    type=str, 
+    default=None, 
+    help="Column(s) to be ignored. To ignore multiple keys, separate them with a comma, e.g., key1,key2"
 )
 @click.option(
     "--format",
@@ -49,7 +58,7 @@ from . import load_csv, load_json, compare, human_text
     multiple=True,
     help="key: format string - define extra fields to display",
 )
-def cli(previous, current, key, format, json, singular, plural, show_unchanged, extras):
+def cli(previous, current, key, ignore, format, json, singular, plural, show_unchanged, extras):
     "Diff two CSV or JSON files"
     dialect = {
         "csv": "excel",
@@ -64,10 +73,10 @@ def cli(previous, current, key, format, json, singular, plural, show_unchanged, 
 
     def load(filename):
         if format == "json":
-            return load_json(open(filename), key=key)
+            return load_json(open(filename), key=key, ignore=ignore)
         else:
             return load_csv(
-                open(filename, newline=""), key=key, dialect=dialect.get(format)
+                open(filename, newline=""), key=key, dialect=dialect.get(format), ignore=ignore
             )
 
     previous_data = load(previous)
