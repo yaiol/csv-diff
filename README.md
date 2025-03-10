@@ -69,40 +69,75 @@ Use `--show-unchanged` to include full details of the unchanged values for rows 
         Unchanged:
           name: "Cleo"
 
+### TSV output
+
+You can use the `--oformat tsv` option to get a Tab-separated difference:
+
+    $ csv-diff one.csv two.csv --key=id --oformat json
+    Action	Type	Key	Field	Previous	Current
+    Modify	Summary		rows	1	
+    Modify	Row	1	id		
+    Modify	Field	1	age	4	5
+    Remove	Summary		rows	1	
+    Remove	Row	2	id		
+    Remove	Field	2	id	2	
+    Remove	Field	2	name	Pancakes	
+    Remove	Field	2	age	2	
+    Add	Summary		rows	1	
+    Add	Row	3	id		
+    Add	Field	3	id	3	
+    Add	Field	3	name	Bailey	
+    Add	Field	3	age	1	
+
+### XLSX output
+
+You can use the `--oformat xlsx` option to get a Tab-separated difference:
+
+    $ csv-diff one.csv two.csv --key=id --oformat xlsx -o diff.xlsx
+
+
 ### JSON output
 
-You can use the `--json` option to get a machine-readable difference:
+You can use the `--oformat json` option to get a machine-readable difference:
 
-    $ csv-diff one.csv two.csv --key=id --json
+    $ csv-diff one.csv two.csv --key=id --oformat json
     {
-        "added": [
-            {
-                "id": "3",
-                "name": "Bailey",
-                "age": "1"
-            }
-        ],
-        "removed": [
-            {
-                "id": "2",
-                "name": "Pancakes",
-                "age": "2"
-            }
-        ],
-        "changed": [
-            {
-                "key": "1",
-                "changes": {
-                    "age": [
-                        "4",
-                        "5"
-                    ]
-                }
-            }
-        ],
-        "columns_added": [],
-        "columns_removed": []
+      "Modified": [
+        {
+          "Key": "1",
+          "Fields": {
+            "age": [
+              "4",
+              "5"
+            ]
+          }
+        }
+      ],
+      "Added": [
+        {
+          "Key": "3",
+          "Fields": {
+            "id": "3",
+            "name": "Bailey",
+            "age": "1"
+          }
+        }
+      ],
+      "Removed": [
+        {
+          "Key": "2",
+          "Fields": {
+            "id": "2",
+            "name": "Pancakes",
+            "age": "2"
+          }
+        }
+      ],
+      "Columns Added": [],
+      "Columns Removed": []
     }
+
+
 
 ### Adding templated extras
 
