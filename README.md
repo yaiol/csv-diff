@@ -91,10 +91,13 @@ You can use the `--oformat tsv` option to get a Tab-separated difference:
 
 ### XLSX output
 
-You can use the `--oformat xlsx` option to get a Tab-separated difference:
+You can use the `--oformat xlsx` option to create and xlsx file
 
     $ csv-diff one.csv two.csv --key=id --oformat xlsx -o diff.xlsx
 
+![XLSX Modified](./imgs/xlsx-modified.jpg)
+![XLSX Removed](./imgs/xlsx-removed.jpg)
+![XLSX Added](./imgs/xlsx-added.jpg)
 
 ### JSON output
 
