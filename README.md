@@ -54,7 +54,7 @@ The `--key=id` option means that the `id` column should be treated as the unique
 The `--ignore=col` option means that the `col` column will be ignored during the comparison. To ignore multiple columns, separate them with a comma, 
 e.g., `--ignore=col1,col2`.
 
-The tool will automatically detect if your files are comma- or tab-separated. You can over-ride this automatic detection and force the tool to use a specific format using `--format=tsv` or `--format=csv`.
+The tool will automatically detect if your files are comma- or tab-separated. You can over-ride this automatic detection and force the tool to use a specific format using `--iformat=tsv` or `--iformat=csv`.
 
 You can also feed it JSON files, provided they are a JSON array of objects where each object has the same keys. Use `--format=json` if your input files are JSON.
 
@@ -91,7 +91,7 @@ You can use the `--oformat tsv` option to get a Tab-separated difference:
 	
 ### XLSX output
 
-You can use the `--oformat xlsx` option to create and xlsx file
+You can use the `--oformat xlsx` option to create a xlsx file
 
     $ csv-diff one.csv two.csv --key=id --oformat xlsx -o diff.xlsx
 
