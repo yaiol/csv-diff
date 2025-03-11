@@ -75,20 +75,20 @@ You can use the `--oformat tsv` option to get a Tab-separated difference:
 
     $ csv-diff one.csv two.csv --key=id --oformat json
     Action	Type	Key	Field	Previous	Current
-    Modify	Summary		rows	1	
-    Modify	Row	1	id		
-    Modify	Field	1	age	4	5
-    Remove	Summary		rows	1	
-    Remove	Row	2	id		
-    Remove	Field	2	id	2	
-    Remove	Field	2	name	Pancakes	
-    Remove	Field	2	age	2	
-    Add	Summary		rows	1	
-    Add	Row	3	id		
-    Add	Field	3	id	3	
-    Add	Field	3	name	Bailey	
-    Add	Field	3	age	1	
-
+    Modified	Summary		rows	1
+    Modified	Row	1	id
+    Modified	Field	1	age	4	5
+    Removed	Summary		rows	1
+    Removed	Row	2	id
+    Removed	Field	2	id	2
+    Removed	Field	2	name	Pancakes
+    Removed	Field	2	age	2
+    Added	Summary		rows	1
+    Added	Row	3	id
+    Added	Field	3	id	3
+    Added	Field	3	name	Bailey
+    Added	Field	3	age	1
+	
 ### XLSX output
 
 You can use the `--oformat xlsx` option to create and xlsx file
